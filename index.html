@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odpočet</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #0f172a;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #e2e8f0;
+    }
+    .card {
+      text-align: center;
+      padding: 40px 28px;
+      border-radius: 24px;
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      width: min(92vw, 700px);
+    }
+    .label {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 12px;
+    }
+    .countdown {
+      font-size: clamp(40px, 10vw, 84px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0;
+    }
+    .sub {
+      margin-top: 14px;
+      font-size: 16px;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">Do 15. 4. 2026, 20:00 zbývá</div>
+    <h1 class="countdown" id="countdown">—</h1>
+    <div class="sub" id="subtext">počítám...</div>
+  </div>
+
+  <script>
+    const targetDate = new Date('2026-04-15T20:00:00');
+    const countdownEl = document.getElementById('countdown');
+    const subtextEl = document.getElementById('subtext');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diffMs = targetDate - now;
+
+      if (diffMs <= 0) {
+        countdownEl.textContent = '0 hodin';
+        subtextEl.textContent = 'Cílový čas už nastal.';
+        return;
+      }
+
+      const totalHours = diffMs / (1000 * 60 * 60);
+      const wholeHours = Math.floor(totalHours);
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `${wholeHours} hodin`;
+      subtextEl.textContent = `A k tomu ještě ${minutes} minut a ${seconds} sekund.`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
